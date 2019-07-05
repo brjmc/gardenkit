@@ -1,35 +1,35 @@
 from django.db import models
 
-class Plant(models.Model):
+class PlantModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   modified = models.DateTimeField(auto_now=True)
   description = models.CharField(max_length=200)
   def __str__(self):
     return self.description
 
-class SoilMoistureReading(models.Model):
+class SoilMoistureReadingModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   value = models.FloatField
-  plant = models.ForeignKey(Plant, on_delete=models.SET_NULL, null=True)
+  plant = models.ForeignKey(PlantModel, on_delete=models.SET_NULL, null=True)
   def __str__(self):
     return self.value
 
-class MoistureProbeEvent(models.Model):
+class MoistureProbeEventModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   value = models.FloatField
-  reading = models.ForeignKey(SoilMoistureReading, on_delete=models.SET_NULL, null=True)
+  reading = models.ForeignKey(SoilMoistureReadingModel, on_delete=models.SET_NULL, null=True)
   def __str__(self):
     return self.value
 
-class TankLevelReading(models.Model):
+class TankLevelReadingModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   level = models.FloatField
   def __str__(self):
     return self.value
 
-class TankUltraSonicSensorEvent(models.Model):
+class TankUltraSonicSensorEventModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   value = models.FloatField
-  reading = models.ForeignKey(TankLevelReading, on_delete=models.SET_NULL, null=True)
+  reading = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
   def __str__(self):
     return self.value
