@@ -31,3 +31,9 @@ class TankLevelReadingModel(models.Model):
     volume = (waterDepth/3) * (tankBaseArea + areaAtWaterSurface + sqrt(tankBaseArea * areaAtWaterSurface))
 
     return volume * 1000
+
+class ValveOpenEvent(models.Models):
+  created = models.DateTimeField(auto_now_add=True)
+  durationSeconds = models.SmallIntegerField()
+  tankLevelBefore = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
+  tankLevelAfter = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
