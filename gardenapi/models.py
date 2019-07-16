@@ -10,16 +10,16 @@ class PlantModel(models.Model):
 
 class SoilMoistureReadingModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
-  value = models.FloatField
+  value = models.FloatField()
   plant = models.ForeignKey(PlantModel, on_delete=models.SET_NULL, null=True)
   def __str__(self):
     return self.value
 
 class TankLevelReadingModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
-  sensorReading = models.FloatField
+  sensorReading = models.FloatField(default=0)
   def __str__(self):
-    return self.value
+    return str(self.sensorReading)
 
   def level(self):
     tankHeight = 33
