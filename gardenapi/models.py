@@ -1,4 +1,5 @@
 from django.db import models
+from math import sqrt
 
 class PlantModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
@@ -14,22 +15,19 @@ class SoilMoistureReadingModel(models.Model):
   def __str__(self):
     return self.value
 
-class MoistureProbeEventModel(models.Model):
-  created = models.DateTimeField(auto_now_add=True)
-  value = models.FloatField
-  reading = models.ForeignKey(SoilMoistureReadingModel, on_delete=models.SET_NULL, null=True)
-  def __str__(self):
-    return self.value
-
 class TankLevelReadingModel(models.Model):
   created = models.DateTimeField(auto_now_add=True)
-  level = models.FloatField
+  sensorReading = models.FloatField
   def __str__(self):
     return self.value
 
-class TankUltraSonicSensorEventModel(models.Model):
-  created = models.DateTimeField(auto_now_add=True)
-  value = models.FloatField
-  reading = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
-  def __str__(self):
-    return self.value
+  def level(self):
+    tankHeight = 33
+    tankSliceAreaSlope = 15.7
+    tankBaseArea = 1462
+
+    waterDepth = tankHeight - self.sensorReading
+    areaAtWaterSurface = (waterDepth * tankSliceAreaSlope) + tankBaseArea
+    volume = (waterDepth/3) * (tankBaseArea + areaAtWaterSurface + sqrt(tankBaseArea * areaAtWaterSurface))
+
+    return volume * 1000
