@@ -53,6 +53,8 @@ float readTankLevel() {
 void setup() {
   pinMode(MOISTURE_1, INPUT);
   pinMode(MOISTURE_2, INPUT);
+  pinMode(MOISTURE_3, INPUT);
+  pinMode(MOISTURE_4, INPUT);
   pinMode(US_TRIGGER, OUTPUT);
   pinMode(US_ECHO, INPUT);
   Serial.begin(9600);
