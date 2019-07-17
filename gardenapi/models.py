@@ -32,8 +32,8 @@ class TankLevelReadingModel(models.Model):
 
     return volume * 1000
 
-class ValveOpenEvent(models.Models):
+class ValveOpenEvent(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   durationSeconds = models.SmallIntegerField()
-  tankLevelBefore = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
-  tankLevelAfter = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True)
+  tankLevelBefore = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True, related_name='+')
+  tankLevelAfter = models.ForeignKey(TankLevelReadingModel, on_delete=models.SET_NULL, null=True, related_name='+')

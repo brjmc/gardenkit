@@ -2,7 +2,7 @@ import serial
 import io
 import time
 
-COM_PORT = '/dev/cu.usbserial-1420'
+COM_PORT = '/dev/ttyUSB0'
 BAUDRATE = 9600
 MAX_BYTES = 1
 SAMPLE_SIZE = 10
