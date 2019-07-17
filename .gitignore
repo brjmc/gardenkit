@@ -8,6 +8,8 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+**/*.elf
+**/*.hex
 
 # Log files
 npm-debug.log*
