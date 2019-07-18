@@ -6,5 +6,4 @@ import pytz
 class Command(BaseCommand):
     def handle(self, **options):
       items = TankLevelReadingModel.objects.all()
-      for item in items:
-        print(item)
+      return items

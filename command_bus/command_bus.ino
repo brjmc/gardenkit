@@ -3,7 +3,7 @@
 // PINS
 #define US_TRIGGER 2
 #define US_ECHO 3
-#define VALVE_RELAY 3
+#define VALVE_RELAY 10
 #define MOISTURE_1 0
 #define MOISTURE_2 1
 #define MOISTURE_3 2
@@ -19,6 +19,7 @@
 
 #define OPEN_VALVE_30s '6'
 #define OPEN_VALVE_5s '7'
+#define OPEN_VALVE_60s '8'
 
 
 // VARIABLES
@@ -28,11 +29,11 @@ float distance;
 
 float moisture;
 
-bool openValve(int duration) {
-  digitalWrite(VALVE_RELAY, HIGH);
-  delay(duration);
+void openValve(int duration) {
+  Serial.println(9999);
   digitalWrite(VALVE_RELAY, LOW);
-  return true;
+  delay(duration);
+  digitalWrite(VALVE_RELAY, HIGH);
 }
 
 float readMoisture(int pin) {
@@ -41,14 +42,15 @@ float readMoisture(int pin) {
 
 float readTankLevel() {
     digitalWrite(US_TRIGGER, LOW);
-    delayMicroseconds(1);
+    delayMicroseconds(2);
     digitalWrite(US_TRIGGER, HIGH);
-    delayMicroseconds(5);
+    delayMicroseconds(10);
     digitalWrite(US_TRIGGER, LOW);
     duration = pulseIn(US_ECHO, HIGH);
     distance= duration*0.034/2;
     return distance;
 }
+
 
 void setup() {
   pinMode(MOISTURE_1, INPUT);
@@ -57,13 +59,16 @@ void setup() {
   pinMode(MOISTURE_4, INPUT);
   pinMode(US_TRIGGER, OUTPUT);
   pinMode(US_ECHO, INPUT);
+  pinMode(VALVE_RELAY, OUTPUT);
+  digitalWrite(VALVE_RELAY, HIGH);
+
   Serial.begin(9600);
   delay(20);
 }
 
 
 void loop() {
-  delay(1);
+  // delay(1);
   while(Serial.available()) {
     command = Serial.read();
     switch(command) {
@@ -83,10 +88,13 @@ void loop() {
         Serial.println(readMoisture(MOISTURE_4));
         break;
       case OPEN_VALVE_30s:
-        Serial.println(openValve(30000));
+        openValve(30000);
         break;
       case OPEN_VALVE_5s:
-        Serial.println(openValve(5000));
+        openValve(5000);
+        break;
+      case OPEN_VALVE_60s:
+        openValve(60000);
         break;
       default:
         Serial.println(-9999);
